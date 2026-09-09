@@ -14,7 +14,8 @@ import {
   FiSun,
   FiMoon,
   FiLogOut,
-  FiSettings
+  FiSettings,
+  FiX
 } from 'react-icons/fi';
 import { MdOutlineRestaurantMenu } from 'react-icons/md';
 
@@ -89,7 +90,7 @@ function AdminPlaceholder({ page }) {
   );
 }
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ mobileOpen = false, onClose }) {
   const { theme, toggleTheme } = useTheme();
   const dark = theme === 'dark';
   const location = useLocation();
@@ -122,18 +123,30 @@ export default function AdminSidebar() {
     }
   }, [location.pathname]);
 
-  const sidebarWidth = collapsed ? 'w-20' : 'w-64';
+  const sidebarWidth = collapsed ? 'md:w-20' : 'w-64';
   const { logout } = useAuth();
 
   const handleLogout = () => {
+    onClose?.();
     logout();
     navigate('/');
-};
+  };
 
   return (
-    <div className="flex h-screen font-sans">
+    <>
+      {/* Mobile Backdrop */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden animate-fade-in"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className={`${sidebarWidth} h-screen flex flex-col relative transition-all duration-300 ease-in-out ${
+      <aside className={`h-screen flex flex-col fixed inset-y-0 left-0 z-50 md:relative md:translate-x-0 transition-all duration-300 ease-in-out font-sans flex-shrink-0 ${
+        mobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'
+      } ${sidebarWidth} ${
         dark 
           ? 'bg-gray-950 border-r border-gray-800' 
           : 'bg-white border-r border-gray-100'
@@ -145,10 +158,10 @@ export default function AdminSidebar() {
           <img 
             src={logo} 
             alt="SmartMess Logo" 
-            className="w-8 h-8 object-contain"
+            className="w-8 h-8 object-contain flex-shrink-0"
           />
           {!collapsed && (
-            <div className="overflow-hidden transition-all duration-300">
+            <div className="overflow-hidden transition-all duration-300 flex-1">
               <div className="font-playfair text-lg font-black text-primary-600 dark:text-primary-400 leading-tight">
                 SmartMess
               </div>
@@ -159,6 +172,14 @@ export default function AdminSidebar() {
               </div>
             </div>
           )}
+          {/* Mobile close button */}
+          <button
+            onClick={onClose}
+            className="md:hidden ml-auto p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            aria-label="Close menu"
+          >
+            <FiX className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Navigation */}
@@ -230,6 +251,7 @@ export default function AdminSidebar() {
                               <Link
                                 key={child.key}
                                 to={child.href}
+                                onClick={onClose}
                                 className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
                                   isChildActive
                                     ? dark
@@ -257,6 +279,7 @@ export default function AdminSidebar() {
                 <Link
                   key={item.key}
                   to={item.href}
+                  onClick={onClose}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
                     active === item.key
                       ? dark
@@ -321,10 +344,10 @@ export default function AdminSidebar() {
             )}
           </button>
 
-          {/* Collapse Button */}
+          {/* Collapse Button - Desktop only */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className={`w-full flex items-center justify-center gap-2 px-3 py-2 mt-2 rounded-xl transition-all duration-200 ${
+            className={`hidden md:flex w-full items-center justify-center gap-2 px-3 py-2 mt-2 rounded-xl transition-all duration-200 ${
               dark
                 ? 'text-gray-500 hover:bg-gray-800/50 hover:text-gray-400'
                 : 'text-gray-400 hover:bg-gray-100 hover:text-gray-500'
@@ -339,9 +362,6 @@ export default function AdminSidebar() {
           </button>
         </div>
       </aside>
-
-      {/* Main Content Area */}
-     <div className="flex-1" />
-    </div>
+    </>
   );
 }

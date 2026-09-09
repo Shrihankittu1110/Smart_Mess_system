@@ -164,17 +164,17 @@ const AdminDashboard = () => {
   <style>{`/* hide main page scrollbar */ .flex-1::-webkit-scrollbar { display: none; }`}</style>
 
         {/* Stat Cards */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <StatCard icon={Users}       label="Total Users"       value={stats.totalUsers}            gradient="bg-indigo-500"      loading={loadingStats} />
           <StatCard icon={Store}       label="Approved Canteens" value={stats.totalApprovedCanteens} gradient="bg-primary-500"     loading={loadingStats} />
           <StatCard icon={ShoppingBag} label="Total Orders"      value={stats.totalOrders}           gradient="bg-amber-500"       loading={loadingStats} />
         </div>
 
         {/* ── Chart + Activity side by side ── */}
-        <div className="grid grid-cols-5 gap-4" style={{ minHeight: 0 }}>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4" style={{ minHeight: 0 }}>
 
           {/* Bar Chart — 3/5 width */}
-          <div className="col-span-3 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 flex flex-col overflow-hidden">
+          <div className="col-span-1 lg:col-span-3 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-4 sm:p-5 flex flex-col overflow-hidden">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center">
@@ -295,7 +295,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Activity Feed — 2/5 width */}
-          <div className="col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 flex flex-col overflow-hidden">
+          <div className="col-span-1 lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 flex flex-col overflow-hidden">
             {/* Header */}
             <div className="px-4 py-3.5 border-b border-gray-100 dark:border-gray-700/60 flex items-center justify-between flex-shrink-0">
               <div className="flex items-center gap-2">

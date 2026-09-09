@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   Store, ShoppingCart, ClipboardList, BarChart2,
   Home, LogOut, ChevronLeft, ChevronRight, UtensilsCrossed, Search,
-  Sun, Moon, MessageSquare, Ticket
+  Sun, Moon, MessageSquare, Ticket, X
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
@@ -18,7 +18,7 @@ const NAV_ITEMS = [
   { icon: MessageSquare, label: "Inquiry",   path: "/student/inquiry" },
 ];
 
-export default function StudentSidebar() {
+export default function StudentSidebar({ mobileOpen = false, onClose }) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,16 +31,34 @@ export default function StudentSidebar() {
   const initials = displayName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
   const handleLogout = () => {
+    onClose?.();
     logout();
     navigate('/');
   };
 
+  const handleNav = (path) => {
+    onClose?.();
+    navigate(path);
+  };
+
   return (
-    <aside
-      className={`h-screen sticky top-0 flex flex-col transition-all duration-300 ease-in-out z-20 ${
-        collapsed ? "w-[70px]" : "w-[220px]"
-      } ${dark ? "bg-gray-950 border-r border-gray-800" : "bg-white border-r border-gray-100"}`}
-    >
+    <>
+      {/* Mobile Backdrop */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden animate-fade-in"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside
+        className={`h-screen flex flex-col transition-all duration-300 ease-in-out
+          fixed inset-y-0 left-0 z-50 md:sticky md:top-0 md:z-20
+          ${mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"}
+          ${collapsed ? "md:w-[70px]" : "w-[260px] md:w-[220px]"}
+          ${dark ? "bg-gray-950 border-r border-gray-800" : "bg-white border-r border-gray-100"}`}
+      >
       {/* Logo */}
       <div className={`flex items-center justify-between px-4 py-5 border-b ${dark ? "border-gray-800" : "border-gray-100"}`}>
         {!collapsed && (
@@ -61,19 +79,35 @@ export default function StudentSidebar() {
             <UtensilsCrossed size={16} color="white" strokeWidth={2.5} />
           </div>
         )}
-        {!collapsed && (
-          <button onClick={() => setCollapsed(true)}
-            className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200 ${
-              dark ? "text-gray-500 hover:text-white hover:bg-white/10" : "text-gray-400 hover:text-gray-700 hover:bg-gray-100"
-            }`}>
-            <ChevronLeft size={15} />
+        <div className="flex items-center gap-1">
+          {/* Mobile close button */}
+          <button
+            onClick={onClose}
+            className={`md:hidden w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
+              dark ? "text-gray-400 hover:text-white hover:bg-white/10" : "text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+            }`}
+            aria-label="Close menu"
+          >
+            <X size={18} />
           </button>
-        )}
+
+          {/* Desktop collapse toggle */}
+          {!collapsed && (
+            <button
+              onClick={() => setCollapsed(true)}
+              className={`hidden md:flex w-7 h-7 rounded-lg items-center justify-center transition-all duration-200 ${
+                dark ? "text-gray-500 hover:text-white hover:bg-white/10" : "text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              <ChevronLeft size={15} />
+            </button>
+          )}
+        </div>
       </div>
 
       {collapsed && (
         <button onClick={() => setCollapsed(false)}
-          className={`mx-auto mt-3 w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200 ${
+          className={`hidden md:flex mx-auto mt-3 w-7 h-7 rounded-lg items-center justify-center transition-all duration-200 ${
             dark ? "text-gray-500 hover:text-white hover:bg-white/10" : "text-gray-400 hover:text-gray-700 hover:bg-gray-100"
           }`}>
           <ChevronRight size={15} />
@@ -118,7 +152,7 @@ export default function StudentSidebar() {
           const isActive = location.pathname.startsWith(item.path);
           const Icon = item.icon;
           return (
-            <button key={item.path} onClick={() => navigate(item.path)}
+            <button key={item.path} onClick={() => handleNav(item.path)}
               title={collapsed ? item.label : ""}
               className={`w-full flex items-center gap-3 rounded-xl transition-all duration-200 group
                 ${collapsed ? "px-0 py-3 justify-center" : "px-3 py-2.5"}
@@ -155,7 +189,7 @@ export default function StudentSidebar() {
           </button>
         )}
 
-        <button onClick={() => navigate("/")}
+        <button onClick={() => handleNav("/")}
           className={`w-full flex items-center gap-3 rounded-xl transition-all duration-200
             ${collapsed ? "px-0 py-3 justify-center" : "px-3 py-2.5"}
             ${dark ? "text-gray-400 hover:bg-gray-800/50 hover:text-gray-200" : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"}`}>
@@ -172,5 +206,6 @@ export default function StudentSidebar() {
         </button>
       </div>
     </aside>
+    </>
   );
 }

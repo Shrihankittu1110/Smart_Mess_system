@@ -494,16 +494,12 @@ export default function ChatBot() {
       <button
         onClick={() => setOpen(o => !o)}
         title="SmartMess Assistant"
+        className="fixed z-[9999] bottom-20 md:bottom-6 right-4 md:right-6 w-14 h-14 rounded-full flex items-center justify-center border-0 cursor-pointer transition-all duration-250"
         style={{
-          position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
-          width: '58px', height: '58px', borderRadius: '50%',
           background: open
             ? (dark ? '#374151' : '#f3f4f6')
             : 'linear-gradient(135deg, #15803d 0%, #4ade80 100%)',
-          border: 'none', cursor: 'pointer',
           boxShadow: open ? 'none' : '0 4px 24px rgba(22,163,74,0.5)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          transition: 'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',
           animation: open ? 'none' : 'chatPulse 2.8s ease-in-out infinite',
         }}
         onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.1)'; }}
@@ -526,21 +522,16 @@ export default function ChatBot() {
 
       {/* ─── Chat window ─────────────────────────────────────────────────── */}
       {open && (
-        <div style={{
-          position: 'fixed',
-          bottom: '96px',
-          right: '24px',
-          top: '12px',           /* never go above 12px from top of viewport */
-          zIndex: 9998,
-          width: '390px',
-          maxHeight: 'calc(100vh - 120px)',   /* 96px bottom offset + 24px breathing room */
-          minHeight: '0',
-          borderRadius: '22px',
-          boxShadow: dark ? '0 24px 64px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06)' : '0 24px 64px rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.06)',
-          display: 'flex', flexDirection: 'column', overflow: 'hidden',
-          background: dark ? '#0f172a' : '#ffffff',
-          animation: 'chatSlideUp 0.3s cubic-bezier(0.34,1.4,0.64,1)',
-        }}>
+        <div
+          className="fixed z-[9998] bottom-36 md:bottom-24 right-3 sm:right-6 left-3 sm:left-auto w-auto sm:w-[390px] max-w-[calc(100vw-24px)] rounded-2xl flex flex-col overflow-hidden shadow-2xl"
+          style={{
+            top: '12px',
+            maxHeight: 'calc(100vh - 160px)',
+            minHeight: '0',
+            boxShadow: dark ? '0 24px 64px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06)' : '0 24px 64px rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.06)',
+            background: dark ? '#0f172a' : '#ffffff',
+            animation: 'chatSlideUp 0.3s cubic-bezier(0.34,1.4,0.64,1)',
+          }}>
 
           {/* ── Header ────────────────────────────────────────────────────── */}
           <div style={{
@@ -602,6 +593,17 @@ export default function ChatBot() {
                   onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
                 >
                   <svg width="14" height="14" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                </button>
+
+                {/* Close */}
+                <button
+                  onClick={() => setOpen(false)}
+                  title="Close Assistant"
+                  style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '8px', cursor: 'pointer', padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.28)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+                >
+                  <svg width="14" height="14" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               </div>
             </div>

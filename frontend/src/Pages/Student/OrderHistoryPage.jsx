@@ -170,7 +170,7 @@ export default function OrderHistoryPage() {
   ).length;
 
   return (
-    <div className="min-h-screen px-6 py-8">
+    <div className="min-h-screen px-4 sm:px-6 py-4 sm:py-8">
       <div className="max-w-3xl mx-auto">
 
         {toast && (
@@ -183,7 +183,7 @@ export default function OrderHistoryPage() {
         )}
 
         {/* Header */}
-        <div className="page-header animate-fade-down flex items-start justify-between">
+        <div className="page-header animate-fade-down flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="section-title">Order <span className="text-gradient">History</span></h1>
             <div className="flex items-center gap-3 mt-1">
@@ -193,16 +193,16 @@ export default function OrderHistoryPage() {
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={() => fetchOrders(false)}
-              className="btn-secondary flex items-center gap-1.5 text-xs"
+              className="btn-secondary flex-1 sm:flex-none justify-center flex items-center gap-1.5 text-xs"
             >
               <RefreshCw size={12} /> Refresh
             </button>
             <button
               onClick={() => navigate("/student/expenses")}
-              className="btn-secondary flex items-center gap-2 text-sm"
+              className="btn-secondary flex-1 sm:flex-none justify-center flex items-center gap-2 text-sm"
             >
               <BarChart2 size={14} /> Expenses
             </button>
@@ -312,7 +312,7 @@ export default function OrderHistoryPage() {
                   </div>
                 </div>
 
-                <div className="space-y-1 mb-3 pl-12">
+                <div className="space-y-1 mb-3 pl-0 sm:pl-12">
                   {order.items?.map((item, j) => (
                     <div key={j} className="flex justify-between text-xs">
                       <span className="text-gray-500">{item.name} × {item.quantity}</span>
@@ -323,7 +323,7 @@ export default function OrderHistoryPage() {
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-gray-50 dark:border-gray-700 pl-12">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-gray-50 dark:border-gray-700 pl-0 sm:pl-12">
                   <div>
                     <p className="font-bold text-gray-900 dark:text-white text-sm">
                       RS <span className="text-gradient">{order.totalAmount?.toFixed(2)}</span>
@@ -335,7 +335,7 @@ export default function OrderHistoryPage() {
                       })}
                     </p>
                   </div>
-                  <div className="flex gap-1.5 flex-wrap justify-end">
+                  <div className="flex gap-1.5 flex-wrap w-full sm:w-auto justify-start sm:justify-end">
                     {order.status === "completed" && (
                       <button
                         onClick={() => navigate(`/student/rating/${order._id}/${order.canteen?._id}`)}

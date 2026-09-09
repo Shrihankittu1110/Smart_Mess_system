@@ -176,7 +176,7 @@ export default function ProfilePage() {
 
                 {/* Profile Card */}
                 <div
-                    className="w-full max-w-2xl bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 rounded-2xl p-8 animate-fade-up shadow-xl relative overflow-hidden"
+                    className="w-full max-w-2xl bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 rounded-2xl p-5 sm:p-8 animate-fade-up shadow-xl relative overflow-hidden"
                     style={{
                         borderColor: colors.border + '44',
                         boxShadow: `0 24px 60px ${colors.glow}, 0 0 0 1px ${colors.border}11`,
@@ -186,7 +186,7 @@ export default function ProfilePage() {
                     <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-30" style={{ background: colors.accent }} />
 
                     {/* Avatar & Header */}
-                    <div className="flex items-start gap-5 mb-8 relative z-10">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 mb-8 relative z-10 text-center sm:text-left">
                         <div
                             className="w-20 h-20 rounded-2xl flex items-center justify-center text-white shadow-lg flex-shrink-0"
                             style={{
@@ -197,7 +197,7 @@ export default function ProfilePage() {
                             {roleIcons[user.role]}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <h1 className="font-playfair text-2xl font-black text-gray-900 dark:text-white truncate">{user.name}</h1>
+                            <h1 className="font-playfair text-xl sm:text-2xl font-black text-gray-900 dark:text-white truncate">{user.name}</h1>
                             <p className="text-gray-500 dark:text-gray-400 text-sm truncate">{user.email}</p>
                             <span
                                 className="inline-flex items-center gap-1 mt-2 text-[10px] font-extrabold tracking-wider uppercase px-3 py-1 rounded-full border"

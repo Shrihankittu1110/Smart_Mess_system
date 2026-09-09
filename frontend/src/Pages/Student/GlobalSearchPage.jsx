@@ -104,7 +104,7 @@ export default function GlobalSearchPage() {
   );
 
   return (
-    <div className="min-h-screen px-6 py-8">
+    <div className="min-h-screen px-4 sm:px-6 py-4 sm:py-8">
       <div className="max-w-3xl mx-auto">
 
         {/* Header */}
@@ -148,7 +148,7 @@ export default function GlobalSearchPage() {
           </div>
 
           {/* Category buttons + Price dropdown */}
-          <div className="flex items-center justify-between gap-3 mb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
             <div className="flex flex-wrap gap-2 flex-1">
               {visibleCategories.map((cat) => (
                 <button
@@ -167,14 +167,14 @@ export default function GlobalSearchPage() {
             </div>
 
             {/* Price select dropdown */}
-            <div className="relative flex-shrink-0">
+            <div className="relative flex-shrink-0 w-full sm:w-auto">
               <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 z-10">
                 <SlidersHorizontal size={13} className={maxPrice ? "text-green-600" : "text-gray-400"} />
               </div>
               <select
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                className={`appearance-none pl-8 pr-8 py-2 rounded-xl border text-xs font-semibold cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 ${
+                className={`w-full sm:w-auto appearance-none pl-8 pr-8 py-2 rounded-xl border text-xs font-semibold cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 ${
                   maxPrice
                     ? "border-green-400 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
                     : "border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:border-green-300"

@@ -98,44 +98,46 @@ export default function ExpenseDashboard() {
   ];
 
   return (
-    <div className="min-h-screen px-6 py-8">
+    <div className="min-h-screen px-4 sm:px-6 py-4 sm:py-8">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}
-        <div className="page-header animate-fade-down flex items-start justify-between">
+        <div className="page-header animate-fade-down flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="section-title">Expense <span className="text-gradient">Summary</span></h1>
             <p className="section-subtitle">Your monthly canteen spending overview</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
             {/* Export PDF button */}
             <button
               onClick={generatePDF}
               disabled={loading || totalYear === 0}
-              className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40 mr-2"
+              className="btn-primary flex items-center justify-center gap-2 text-sm disabled:opacity-40 flex-1 sm:flex-none"
             >
               <Download size={15} /> Export PDF
             </button>
-            {/* Previous year button */}
-            <button
-              onClick={() => setYear((y) => y - 1)}
-              className="w-9 h-9 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:border-green-400 hover:text-green-600 transition-all"
-              aria-label="Previous year"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <span className="font-bold text-gray-900 dark:text-white text-base px-2 min-w-[50px] text-center">
-              {year}
-            </span>
-            {/* Next year button */}
-            <button
-              onClick={() => setYear((y) => y + 1)}
-              disabled={year >= new Date().getFullYear()}
-              className="w-9 h-9 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:border-green-400 hover:text-green-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-              aria-label="Next year"
-            >
-              <ChevronRight size={16} />
-            </button>
+            <div className="flex items-center gap-1">
+              {/* Previous year button */}
+              <button
+                onClick={() => setYear((y) => y - 1)}
+                className="w-9 h-9 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:border-green-400 hover:text-green-600 transition-all"
+                aria-label="Previous year"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <span className="font-bold text-gray-900 dark:text-white text-base px-2 min-w-[50px] text-center">
+                {year}
+              </span>
+              {/* Next year button */}
+              <button
+                onClick={() => setYear((y) => y + 1)}
+                disabled={year >= new Date().getFullYear()}
+                className="w-9 h-9 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:border-green-400 hover:text-green-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Next year"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
         </div>
 

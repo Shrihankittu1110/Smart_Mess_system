@@ -492,24 +492,24 @@ export default function MealsPage() {
       <Toast toast={toast} onClose={() => setToast(null)} />
 
       {/* ── Header ── */}
-      <div className="flex-shrink-0 px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between">
+      <div className="flex-shrink-0 px-4 sm:px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Meal Management</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage your canteen's menu items</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Meal Management</h1>
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1">Manage your canteen's menu items</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
             <button onClick={exportPDF}
-              className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
               <Download className="w-4 h-4" /> Export PDF
             </button>
             <button onClick={openAdd}
-              className="flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-green-600/20">
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm font-medium rounded-xl transition-all shadow-lg shadow-green-600/20">
               <Plus className="w-4 h-4" /> Add New Meal
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-6">
           <StatCard icon={Utensils}    label="Total Meals"  value={totalMeals}      color="blue"   />
           <StatCard icon={CheckCircle} label="Available"    value={availableMeals}  color="green"  />
           <StatCard icon={XCircle}     label="Out of Stock" value={outOfStockMeals} color="red"    />
@@ -518,9 +518,9 @@ export default function MealsPage() {
       </div>
 
       {/* ── Filters Bar ── */}
-      <div className="flex-shrink-0 px-6 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex-shrink-0 px-4 sm:px-6 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="relative flex-1 min-w-[250px]">
+          <div className="relative flex-1 min-w-[200px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input value={search} onChange={e => setSearch(e.target.value)}
               placeholder="Search meals by name, category..."
@@ -593,7 +593,7 @@ export default function MealsPage() {
       </div>
 
       {/* ── Meals Grid / List ── */}
-      <div className="flex-1 overflow-y-auto px-6 py-5">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-5">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-full">
             <Loader2 className="w-8 h-8 animate-spin text-green-600 mb-3" />

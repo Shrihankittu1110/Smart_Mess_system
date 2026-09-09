@@ -43,23 +43,47 @@ import ComplaintManagement from './Complaintmanagement';
 
 
 
+import { createContext, useContext, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+export const AdminNavContext = createContext({
+  mobileOpen: false,
+  setMobileOpen: () => {},
+  toggleMobile: () => {},
+  closeMobile: () => {},
+});
+
+export const useAdminNav = () => useContext(AdminNavContext);
+
 // ── Layout ────────────────────────────────────────────────────────────────────
 export default function AdminLayout() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
+  const toggleMobile = () => setMobileOpen(prev => !prev);
+  const closeMobile = () => setMobileOpen(false);
+
   return (
-    <div className="flex h-screen overflow-hidden">
-      <AdminSidebar />
-      <div className="flex-1 min-w-0 overflow-hidden">
-        <Routes>
-          <Route path="dashboard"          element={<AdminDashboard />} />
-          <Route path="users"              element={<UserManagement />} />
-          <Route path="analytics"          element={<Analytics />} />
-          <Route path="complaints" element={<ComplaintManagement />} />
-          <Route path="canteens/approvals" element={<CanteenApprovals />} />
-          <Route path="canteens/manage"    element={<CanteenVisibility />} />
-          <Route path="profile"            element={<AdminProfile />} />
-          <Route path="*"                  element={<AdminDashboard />} />
-        </Routes>
+    <AdminNavContext.Provider value={{ mobileOpen, setMobileOpen, toggleMobile, closeMobile }}>
+      <div className="flex h-screen overflow-hidden">
+        <AdminSidebar mobileOpen={mobileOpen} onClose={closeMobile} />
+        <div className="flex-1 min-w-0 overflow-hidden flex flex-col">
+          <Routes>
+            <Route path="dashboard"          element={<AdminDashboard />} />
+            <Route path="users"              element={<UserManagement />} />
+            <Route path="analytics"          element={<Analytics />} />
+            <Route path="complaints"         element={<ComplaintManagement />} />
+            <Route path="canteens/approvals" element={<CanteenApprovals />} />
+            <Route path="canteens/manage"    element={<CanteenVisibility />} />
+            <Route path="profile"            element={<AdminProfile />} />
+            <Route path="*"                  element={<AdminDashboard />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </AdminNavContext.Provider>
   );
 }

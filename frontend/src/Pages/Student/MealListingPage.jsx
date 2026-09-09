@@ -275,7 +275,7 @@ export default function MealListingPage() {
       : null;
 
   return (
-    <div className="min-h-screen px-6 py-8">
+    <div className="min-h-screen px-4 sm:px-6 py-4 sm:py-8">
       <div className="max-w-6xl mx-auto">
 
         {/* Back to Canteens */}
@@ -290,32 +290,34 @@ export default function MealListingPage() {
         {/* Canteen Header */}
         {canteen && (
           <div className="glass-card mb-6 animate-fade-down">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center overflow-hidden flex-shrink-0">
-                {canteen.image
-                  ? <img src={buildImgUrl(canteen.image)} alt={canteen.name} className="w-full h-full object-cover" />
-                  : <Utensils size={24} className="text-green-600" />}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  {canteen.image
+                    ? <img src={buildImgUrl(canteen.image)} alt={canteen.name} className="w-full h-full object-cover" />
+                    : <Utensils size={24} className="text-green-600" />}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white truncate">{canteen.name}</h1>
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">{canteen.description}</p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white truncate">{canteen.name}</h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{canteen.description}</p>
-              </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 <button
                   onClick={() => setRatingModal(true)}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 text-xs font-semibold hover:bg-amber-100 transition-colors"
+                  className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 text-xs font-semibold hover:bg-amber-100 transition-colors"
                 >
                   <Star size={13} fill="currentColor" /> Rate Canteen
                 </button>
                 <button
                   onClick={() => setReportModal(true)}
-                  className="btn-secondary flex items-center gap-2 text-xs"
+                  className="btn-secondary flex-1 sm:flex-none justify-center flex items-center gap-2 text-xs"
                 >
                   <AlertCircle size={13} /> Report
                 </button>
                 <button
                   onClick={() => navigate("/student/cart")}
-                  className="btn-primary flex items-center gap-2"
+                  className="btn-primary flex-1 sm:flex-none justify-center flex items-center gap-2 text-xs sm:text-sm"
                 >
                   <ShoppingCart size={15} /> Cart
                 </button>
@@ -675,7 +677,7 @@ export default function MealListingPage() {
 
         {/* Filter Bar */}
         <div className="card mb-6 animate-fade-up">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex flex-wrap gap-2 flex-1">
               {CATEGORIES.map((cat) => (
                 <button
@@ -692,7 +694,7 @@ export default function MealListingPage() {
                 </button>
               ))}
             </div>
-            <div className="relative flex-shrink-0">
+            <div className="relative flex-shrink-0 w-full sm:w-auto">
               <SlidersHorizontal
                 size={13}
                 className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 z-10 ${maxPrice ? "text-green-600" : "text-gray-400"}`}
@@ -700,7 +702,7 @@ export default function MealListingPage() {
               <select
                 value={maxPrice}
                 onChange={handlePriceFilter}
-                className={`appearance-none pl-8 pr-8 py-2 rounded-xl border text-xs font-semibold cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-green-400 ${
+                className={`w-full sm:w-auto appearance-none pl-8 pr-8 py-2 rounded-xl border text-xs font-semibold cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-green-400 ${
                   maxPrice
                     ? "border-green-400 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
                     : "border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:border-green-300"

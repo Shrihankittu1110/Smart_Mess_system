@@ -88,18 +88,18 @@ export default function CartPage() {
   const canteen  = cart?.canteen;
 
   return (
-    <div className="min-h-screen px-6 py-8">
+    <div className="min-h-screen px-4 sm:px-6 py-4 sm:py-8">
       <div className="max-w-2xl mx-auto">
 
         {/* Header */}
-        <div className="page-header animate-fade-down flex items-start justify-between">
+        <div className="page-header animate-fade-down flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="section-title">My <span className="text-gradient">Cart</span></h1>
             <p className="section-subtitle">Review your items before checkout</p>
           </div>
           <button
             onClick={() => navigate("/student/canteens")}
-            className="btn-secondary flex items-center gap-2 text-sm"
+            className="btn-secondary flex items-center justify-center gap-2 text-sm w-full sm:w-auto"
           >
             <ArrowLeft size={14} /> Continue Shopping
           </button>
@@ -144,62 +144,65 @@ export default function CartPage() {
                 return (
                   <div
                     key={mealId || i}
-                    className={`card flex items-center gap-4 animate-fade-up transition-all ${isUpdating ? "opacity-60" : ""}`}
+                    className={`card flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4 animate-fade-up transition-all ${isUpdating ? "opacity-60" : ""}`}
                   >
                     {/* Meal image/icon */}
-                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center overflow-hidden flex-shrink-0">
                       {item.meal?.image
                         ? <img src={buildImgUrl(item.meal.image)} alt={item.meal?.name || item.name} className="w-full h-full object-cover" />
                         : <ShoppingCart size={20} className="text-green-300 dark:text-gray-500" />}
                     </div>
 
                     {/* Info */}
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-[120px]">
                       <p className="font-bold text-gray-900 dark:text-white text-sm truncate">{item.meal?.name || item.name}</p>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                         RS {(item.meal?.basePrice || item.meal?.price || item.price || 0).toFixed(2)} each
                       </p>
                     </div>
 
-                    {/* Quantity controls — text characters so Playwright can find them */}
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    {/* Controls & Price group */}
+                    <div className="flex items-center justify-between w-full sm:w-auto gap-3 sm:gap-4 border-t sm:border-t-0 pt-2 sm:pt-0 border-gray-100 dark:border-gray-700">
+                      {/* Quantity controls */}
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <button
+                          onClick={() => handleDecrease(item)}
+                          disabled={isUpdating}
+                          aria-label="Decrease quantity"
+                          className="w-7 h-7 rounded-lg flex items-center justify-center border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-red-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all disabled:opacity-40 font-bold text-base"
+                        >
+                          -
+                        </button>
+                        <span className="w-7 text-center font-bold text-gray-900 dark:text-white text-sm">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => handleIncrease(item)}
+                          disabled={isUpdating}
+                          aria-label="Increase quantity"
+                          className="w-7 h-7 rounded-lg flex items-center justify-center text-white transition-all disabled:opacity-40 font-bold text-base"
+                          style={{ background: "linear-gradient(135deg, #16a34a, #15803d)" }}
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      {/* Subtotal */}
+                      <div className="text-right flex-shrink-0 min-w-[60px]">
+                        <p className="font-bold text-gray-900 dark:text-white text-sm">
+                          RS {((item.meal?.basePrice || item.meal?.price || item.price || 0) * item.quantity).toFixed(2)}
+                        </p>
+                      </div>
+
+                      {/* Remove button */}
                       <button
-                        onClick={() => handleDecrease(item)}
+                        onClick={() => handleRemove(item)}
                         disabled={isUpdating}
-                        aria-label="Decrease quantity"
-                        className="w-7 h-7 rounded-lg flex items-center justify-center border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-red-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all disabled:opacity-40 font-bold text-base"
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all flex-shrink-0 disabled:opacity-40"
                       >
-                        -
-                      </button>
-                      <span className="w-7 text-center font-bold text-gray-900 dark:text-white text-sm">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => handleIncrease(item)}
-                        disabled={isUpdating}
-                        aria-label="Increase quantity"
-                        className="w-7 h-7 rounded-lg flex items-center justify-center text-white transition-all disabled:opacity-40 font-bold text-base"
-                        style={{ background: "linear-gradient(135deg, #16a34a, #15803d)" }}
-                      >
-                        +
+                        <Trash2 size={14} />
                       </button>
                     </div>
-
-                    {/* Subtotal */}
-                    <div className="text-right flex-shrink-0 min-w-[60px]">
-                      <p className="font-bold text-gray-900 dark:text-white text-sm">
-                        RS {((item.meal?.basePrice || item.meal?.price || item.price || 0) * item.quantity).toFixed(2)}
-                      </p>
-                    </div>
-
-                    {/* Remove button */}
-                    <button
-                      onClick={() => handleRemove(item)}
-                      disabled={isUpdating}
-                      className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all flex-shrink-0 disabled:opacity-40"
-                    >
-                      <Trash2 size={14} />
-                    </button>
                   </div>
                 );
               })}
@@ -225,16 +228,16 @@ export default function CartPage() {
             </div>
 
             {/* Actions */}
-            <div className="flex gap-3 animate-fade-up">
+            <div className="flex flex-col sm:flex-row gap-3 animate-fade-up">
               <button
                 onClick={handleClear}
-                className="btn-danger flex items-center gap-2 text-sm px-4"
+                className="btn-danger flex items-center justify-center gap-2 text-sm px-4 py-2.5"
               >
                 <Trash2 size={14} /> Clear Cart
               </button>
               <button
                 onClick={() => navigate("/student/checkout")}
-                className="btn-primary flex-1 flex items-center justify-center gap-2"
+                className="btn-primary flex-1 flex items-center justify-center gap-2 py-2.5"
               >
                 Proceed to Checkout <ChevronRight size={15} />
               </button>

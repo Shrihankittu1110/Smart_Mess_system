@@ -292,7 +292,7 @@ const UserManagement = () => {
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4" style={{ scrollbarWidth: 'none' }}>
         <style>{`*::-webkit-scrollbar{display:none}`}</style>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <StatCard icon={Users}     label="Total Users"   value={stats.total}   color="bg-indigo-500"  loading={statsLoading} />
           <StatCard icon={UserCheck} label="Active Users"  value={stats.active}  color="bg-primary-500" loading={statsLoading} />
           <StatCard icon={UserX}     label="Blocked Users" value={stats.blocked} color="bg-red-500"     loading={statsLoading} />
@@ -305,7 +305,7 @@ const UserManagement = () => {
               placeholder="Search by name, email, phone or NIC..."
               className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-400 transition-all" />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Filter className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
             {FILTERS.map(f => (
               <button key={f.key} onClick={() => setFilterStatus(f.key)}
@@ -329,13 +329,15 @@ const UserManagement = () => {
         )}
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 overflow-hidden">
-          <div className="grid grid-cols-12 gap-4 px-5 py-3 border-b border-gray-100 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-700/30">
-            <div className="col-span-4 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">User</div>
-            <div className="col-span-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Email</div>
-            <div className="col-span-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Registered</div>
-            <div className="col-span-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Status</div>
-            <div className="col-span-1 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 text-right">Action</div>
-          </div>
+          <div className="overflow-x-auto">
+            <div className="min-w-[650px]">
+              <div className="grid grid-cols-12 gap-4 px-5 py-3 border-b border-gray-100 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-700/30">
+                <div className="col-span-4 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">User</div>
+                <div className="col-span-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Email</div>
+                <div className="col-span-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Registered</div>
+                <div className="col-span-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Status</div>
+                <div className="col-span-1 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 text-right">Action</div>
+              </div>
 
           {loading ? (
             <div className="divide-y divide-gray-50 dark:divide-gray-700/50">
@@ -403,6 +405,8 @@ const UserManagement = () => {
               ))}
             </div>
           )}
+            </div>
+          </div>
         </div>
       </div>
 

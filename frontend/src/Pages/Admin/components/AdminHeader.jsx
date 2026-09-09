@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext'; 
 import { authFetch } from '../../../utils/authFetch';
 import { useNavigate } from 'react-router-dom';
-import { RefreshCw, Shield, UserPlus, X, Eye, EyeOff, Check } from 'lucide-react';
+import { RefreshCw, Shield, UserPlus, X, Eye, EyeOff, Check, Menu } from 'lucide-react';
+import { useAdminNav } from '../AdminLayout';
 
 const timeAgo = (date) => {
   const diff = Date.now() - new Date(date).getTime();
@@ -106,6 +107,7 @@ const InputField = ({ label, name, type = 'text', value, onChange, error, placeh
  */
 const AdminHeader = ({ title = 'Dashboard', subtitle = '', onRefresh, refreshing = false, lastRefresh }) => {
   const navigate = useNavigate();
+  const { toggleMobile } = useAdminNav();
   const [showModal, setShowModal] = useState(false);
   const [showPass, setShowPass]   = useState({ password: false, confirm: false });
   const [loading, setLoading]     = useState(false);
@@ -186,19 +188,28 @@ const initials = adminName.split(' ').map(w => w[0]).join('').toUpperCase().slic
   return (
     <>
       {/* ── Header bar ── */}
-      <header className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-6 py-3 flex items-center justify-between gap-4 flex-shrink-0">
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 sm:px-6 py-3 flex items-center justify-between gap-3 sm:gap-4 flex-shrink-0">
 
-        {/* Left — dynamic page title */}
-        <div className="min-w-0">
-          <h1 className="text-lg font-bold text-gray-900 dark:text-white leading-tight truncate">{title}</h1>
-          {subtitle
-            ? <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{subtitle}</p>
-            : <p className="text-xs text-gray-400 dark:text-gray-500">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
-          }
+        {/* Left — hamburger (mobile) + dynamic page title */}
+        <div className="flex items-center gap-2.5 min-w-0">
+          <button
+            onClick={toggleMobile}
+            className="md:hidden p-1.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+            aria-label="Open Admin Menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <div className="min-w-0">
+            <h1 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white leading-tight truncate">{title}</h1>
+            {subtitle
+              ? <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{subtitle}</p>
+              : <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
+            }
+          </div>
         </div>
 
         {/* Right */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
 
           {/* Refresh pill */}
           {onRefresh && (

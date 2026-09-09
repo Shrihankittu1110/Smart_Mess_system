@@ -182,14 +182,14 @@ export default function HomePage() {
         {/* Navigation Arrows */}
         <button
           onClick={() => goTo((current - 1 + slides.length) % slides.length)}
-          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/25 text-white hover:bg-primary-500 hover:border-primary-400 hover:scale-110 hover:shadow-lg transition-all duration-300 backdrop-blur flex items-center justify-center text-2xl"
+          className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/25 text-white hover:bg-primary-500 hover:border-primary-400 hover:scale-110 hover:shadow-lg transition-all duration-300 backdrop-blur flex items-center justify-center text-lg sm:text-2xl"
           aria-label="Previous slide"
         >
           ‹
         </button>
         <button
           onClick={() => goTo((current + 1) % slides.length)}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/25 text-white hover:bg-primary-500 hover:border-primary-400 hover:scale-110 hover:shadow-lg transition-all duration-300 backdrop-blur flex items-center justify-center text-2xl"
+          className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/25 text-white hover:bg-primary-500 hover:border-primary-400 hover:scale-110 hover:shadow-lg transition-all duration-300 backdrop-blur flex items-center justify-center text-lg sm:text-2xl"
           aria-label="Next slide"
         >
           ›
@@ -223,17 +223,17 @@ export default function HomePage() {
             </p>
             
             {/* Buttons */}
-            <div className="flex flex-wrap gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8">
               <Link
                 to={browsePath}
-                className="group px-8 py-3.5 bg-gradient-to-r from-primary-400 to-primary-600 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/40 hover:shadow-xl hover:shadow-primary-500/50 hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                className="group px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-primary-400 to-primary-600 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/40 hover:shadow-xl hover:shadow-primary-500/50 hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-center"
               >
                 Browse Canteens 
                 <span className="group-hover:translate-x-1 transition-transform duration-300">🍛</span>
               </Link>
               <a
                 href="#about"
-                className="group px-8 py-3.5 bg-white/10 border-2 border-white/30 text-white font-semibold rounded-xl hover:bg-white/20 hover:border-white/50 hover:-translate-y-1 hover:scale-105 transition-all duration-300 backdrop-blur-sm flex items-center gap-2"
+                className="group px-6 sm:px-8 py-3 sm:py-3.5 bg-white/10 border-2 border-white/30 text-white font-semibold rounded-xl hover:bg-white/20 hover:border-white/50 hover:-translate-y-1 hover:scale-105 transition-all duration-300 backdrop-blur-sm flex items-center justify-center gap-2 text-center"
               >
                 Learn More 
                 <MdArrowForward className="group-hover:translate-x-1 transition-transform duration-300" />

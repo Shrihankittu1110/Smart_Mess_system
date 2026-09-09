@@ -8,8 +8,8 @@ import logo from "../../../assets/logo.png";
 import {
   LayoutDashboard, Store, Clock, UtensilsCrossed,
   ShoppingBag, DollarSign, Star, Home, LogOut,
-  ChevronLeft, ChevronRight, Sun, Moon, ChevronDown,AlertCircle,
-  TicketCheck,
+  ChevronLeft, ChevronRight, Sun, Moon, ChevronDown, AlertCircle,
+  TicketCheck, X
 } from "lucide-react";
 
 const NAV = [
@@ -33,10 +33,11 @@ const NAV = [
   { key: "queue",    label: "Queue",              href: "/canteen/queue",    icon: TicketCheck     },
   { key: "revenue",  label: "Revenue",            href: "/canteen/revenue",  icon: DollarSign      },
   { key: "feedback", label: "Reviews & Feedback", href: "/canteen/feedback", icon: Star            },
-{ key: "report",   label: "Report an Issue",    href: "/canteen/report",   icon: AlertCircle     },
-{ key: "home",     label: "Home",               href: "/",                 icon: Home            },
-]
-export default function CanteenSidebar() {
+  { key: "report",   label: "Report an Issue",    href: "/canteen/report",   icon: AlertCircle     },
+  { key: "home",     label: "Home",               href: "/",                 icon: Home            },
+];
+
+export default function CanteenSidebar({ mobileOpen = false, onClose }) {
   const { theme, toggleTheme } = useTheme();
   const dark = theme === "dark";
   const location = useLocation();
@@ -45,7 +46,7 @@ export default function CanteenSidebar() {
   const [openGroups, setOpenGroups] = useState({ "my-canteen": true });
 
   const { user, logout } = useAuth();
-const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: user?.profileImage || null };
+  const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: user?.profileImage || null };
 
   const getActive = () => {
     const p = location.pathname;
@@ -57,7 +58,7 @@ const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: 
     if (p === "/canteen/queue")      return "queue";
     if (p === "/canteen/revenue")    return "revenue";
     if (p === "/canteen/feedback")   return "feedback";
-    if (p === "/canteen/report") return "report";
+    if (p === "/canteen/report")     return "report";
     return "dashboard";
   };
 
@@ -74,22 +75,42 @@ const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: 
   const isGroupActive = (item) => item.children?.some(c => c.key === active);
 
   return (
-    <aside className={`${collapsed ? "w-20" : "w-64"} h-screen flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out ${
-      dark ? "bg-gray-950 border-r border-gray-800/60" : "bg-white border-r border-gray-100"
-    }`}>
+    <>
+      {/* Mobile Backdrop */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden animate-fade-in"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
 
-      {/* Logo */}
-      <div className={`flex items-center gap-3 px-4 py-5 border-b ${dark ? "border-gray-800/60" : "border-gray-100"}`}>
-        <img src={logo} alt="SmartMess" className="w-8 h-8 object-contain flex-shrink-0" />
-        {!collapsed && (
-          <div>
-            <p className="font-bold text-base text-green-600 leading-tight">SmartMess</p>
-            <p className={`text-[10px] uppercase tracking-widest font-medium ${dark ? "text-gray-600" : "text-gray-400"}`}>
-              Canteen Portal
-            </p>
-          </div>
-        )}
-      </div>
+      <aside className={`h-screen flex flex-col flex-shrink-0 fixed inset-y-0 left-0 z-50 md:relative md:translate-x-0 transition-all duration-300 ease-in-out ${
+        mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"
+      } ${collapsed ? "md:w-20" : "w-64"} ${
+        dark ? "bg-gray-950 border-r border-gray-800/60" : "bg-white border-r border-gray-100"
+      }`}>
+
+        {/* Logo */}
+        <div className={`flex items-center gap-3 px-4 py-5 border-b ${dark ? "border-gray-800/60" : "border-gray-100"}`}>
+          <img src={logo} alt="SmartMess" className="w-8 h-8 object-contain flex-shrink-0" />
+          {!collapsed && (
+            <div className="flex-1">
+              <p className="font-bold text-base text-green-600 leading-tight">SmartMess</p>
+              <p className={`text-[10px] uppercase tracking-widest font-medium ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                Canteen Portal
+              </p>
+            </div>
+          )}
+          {/* Mobile close button */}
+          <button
+            onClick={onClose}
+            className="md:hidden ml-auto p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
       {/* Canteen profile avatar */}
       <Link
@@ -164,6 +185,7 @@ const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: 
                         const isChildActive = active === child.key;
                         return (
                           <Link key={child.key} to={child.href}
+                            onClick={onClose}
                             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
                               isChildActive
                                 ? dark ? "bg-green-500/10 text-green-400" : "bg-green-50 text-green-600"
@@ -186,6 +208,7 @@ const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: 
           const isActive = active === item.key;
           return (
             <Link key={item.key} to={item.href} title={collapsed ? item.label : undefined}
+              onClick={onClose}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
                 isActive
                   ? dark ? "bg-green-500/10 text-green-400" : "bg-green-50 text-green-600"
@@ -211,7 +234,7 @@ const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: 
           {!collapsed && <span className="text-sm font-medium">{dark ? "Light Mode" : "Dark Mode"}</span>}
         </button>
 
-       <button onClick={() => { logout(); navigate("/"); }} title="Logout"
+       <button onClick={() => { onClose?.(); logout(); navigate("/"); }} title="Logout"
           className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
             dark ? "text-gray-400 hover:bg-red-500/10 hover:text-red-400"
                  : "text-gray-500 hover:bg-red-50 hover:text-red-600"
@@ -221,7 +244,7 @@ const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: 
         </button>
 
         <button onClick={() => setCollapsed(!collapsed)}
-          className={`w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 ${
+          className={`hidden md:flex w-full items-center justify-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 ${
             dark ? "text-gray-600 hover:bg-gray-800/50 hover:text-gray-400"
                  : "text-gray-300 hover:bg-gray-50 hover:text-gray-500"
           }`}>
@@ -231,5 +254,6 @@ const canteen = { name: user?.canteenName || user?.name || 'My Canteen', image: 
         </button>
       </div>
     </aside>
+  </>
   );
 }

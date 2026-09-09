@@ -154,58 +154,60 @@ export default function OrdersPage() {
       <Toast toast={toast} />
 
       {/* Header */}
-      <div className="flex-shrink-0 px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+      <div className="flex-shrink-0 px-4 sm:px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-lg font-bold text-gray-900 dark:text-white">Orders</h1>
           <p className="text-xs text-gray-400">{stats.pending} pending · {stats.preparing} preparing</p>
         </div>
         <button onClick={fetchOrders}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors w-full sm:w-auto">
           <RefreshCw className="w-4 h-4" /> Refresh
         </button>
       </div>
 
       {/* Stat cards */}
-      <div className="flex-shrink-0 grid grid-cols-4 gap-4 px-6 py-4">
+      <div className="flex-shrink-0 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 px-4 sm:px-6 py-4">
         {[
           { label: 'Total Orders',  value: stats.total,     icon: ShoppingBag, color: 'bg-blue-500'   },
           { label: 'Pending',       value: stats.pending,   icon: Clock,       color: 'bg-yellow-500' },
           { label: 'Preparing',     value: stats.preparing, icon: ChefHat,     color: 'bg-purple-500' },
           { label: 'Completed',     value: stats.completed, icon: CheckCircle, color: 'bg-green-500'  },
         ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-4 flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl ${color} flex items-center justify-center`}>
-              <Icon className="w-5 h-5 text-white" />
+          <div key={label} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3">
+            <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${color} flex items-center justify-center flex-shrink-0`}>
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
-            <div>
-              <p className="text-2xl font-black text-gray-800 dark:text-white">{value}</p>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{label}</p>
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-black text-gray-800 dark:text-white">{value}</p>
+              <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-gray-400 truncate">{label}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* Filters */}
-      <div className="flex-shrink-0 px-6 pb-3 flex items-center gap-3">
+      <div className="flex-shrink-0 px-4 sm:px-6 pb-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Search by student name or order ID..."
             className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all" />
         </div>
-        <div className="relative">
-          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
-            className="appearance-none pl-3 pr-8 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all cursor-pointer">
-            <option value="All">All Status</option>
-            {STATUSES.map(s => <option key={s} value={s}>{STATUS_CONFIG[s].label}</option>)}
-          </select>
-          <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+        <div className="flex items-center gap-3 justify-between sm:justify-start">
+          <div className="relative flex-1 sm:flex-none">
+            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
+              className="w-full sm:w-auto appearance-none pl-3 pr-8 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all cursor-pointer">
+              <option value="All">All Status</option>
+              {STATUSES.map(s => <option key={s} value={s}>{STATUS_CONFIG[s].label}</option>)}
+            </select>
+            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+          </div>
+          <span className="text-xs text-gray-400 flex-shrink-0">{filtered.length} orders</span>
         </div>
-        <span className="text-xs text-gray-400">{filtered.length} orders</span>
       </div>
 
       {/* Orders table */}
-      <div className="flex-1 overflow-y-auto px-6 pb-5" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-5" style={{ scrollbarWidth: 'none' }}>
         {loading ? (
           <div className="flex items-center justify-center h-48">
             <Loader2 className="w-7 h-7 animate-spin text-green-500" />
@@ -216,52 +218,56 @@ export default function OrdersPage() {
             <p className="font-semibold">No orders found</p>
           </div>
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 overflow-hidden">
-            <div className="grid grid-cols-12 gap-3 px-5 py-3 bg-gray-50 dark:bg-gray-700/30 border-b border-gray-100 dark:border-gray-700/60">
-              {['Order ID', 'Student', 'Items', 'Total', 'Time', 'Status', 'Actions'].map((h, i) => (
-                <div key={h} className={`text-[10px] font-bold uppercase tracking-widest text-gray-400 ${
-                  i === 0 ? 'col-span-1' : i === 1 ? 'col-span-2' : i === 2 ? 'col-span-3' :
-                  i === 3 ? 'col-span-1' : i === 4 ? 'col-span-2' : i === 5 ? 'col-span-2' : 'col-span-1'
-                }`}>{h}</div>
-              ))}
-            </div>
-            <div className="divide-y divide-gray-50 dark:divide-gray-700/50">
-              {filtered.map(order => (
-                <div key={order._id} className="grid grid-cols-12 gap-3 px-5 py-3.5 items-center hover:bg-gray-50/50 dark:hover:bg-gray-700/20 transition-colors">
-                  <div className="col-span-1">
-                    <p className="text-xs font-mono font-bold text-gray-500 dark:text-gray-400">
-                      #{order._id?.toString().slice(-6).toUpperCase()}
-                    </p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="text-sm font-semibold text-gray-800 dark:text-white truncate">{order.studentName || 'Student'}</p>
-                    <p className="text-[10px] text-gray-400 truncate">{order.studentEmail || ''}</p>
-                  </div>
-                  <div className="col-span-3">
-                    <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">
-                      {order.items?.map(i => `${i.name} x${i.quantity}`).join(', ') || '-'}
-                    </p>
-                  </div>
-                  <div className="col-span-1">
-                    <p className="text-sm font-black text-green-600 dark:text-green-400">Rs.{order.totalAmount}</p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                    <p className="text-[10px] text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>
-                  </div>
-                  <div className="col-span-2">
-                    <StatusBadge status={order.status} />
-                  </div>
-                  <div className="col-span-1">
-                    <button onClick={() => setSelected(order)}
-                      className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center hover:bg-blue-100 transition-colors">
-                      <Eye className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 overflow-hidden shadow-sm">
+            <div className="overflow-x-auto">
+              <div className="min-w-[720px]">
+                <div className="grid grid-cols-12 gap-3 px-5 py-3 bg-gray-50 dark:bg-gray-700/30 border-b border-gray-100 dark:border-gray-700/60">
+                  {['Order ID', 'Student', 'Items', 'Total', 'Time', 'Status', 'Actions'].map((h, i) => (
+                    <div key={h} className={`text-[10px] font-bold uppercase tracking-widest text-gray-400 ${
+                      i === 0 ? 'col-span-1' : i === 1 ? 'col-span-2' : i === 2 ? 'col-span-3' :
+                      i === 3 ? 'col-span-1' : i === 4 ? 'col-span-2' : i === 5 ? 'col-span-2' : 'col-span-1'
+                    }`}>{h}</div>
+                  ))}
                 </div>
-              ))}
+                <div className="divide-y divide-gray-50 dark:divide-gray-700/50">
+                  {filtered.map(order => (
+                    <div key={order._id} className="grid grid-cols-12 gap-3 px-5 py-3.5 items-center hover:bg-gray-50/50 dark:hover:bg-gray-700/20 transition-colors">
+                      <div className="col-span-1">
+                        <p className="text-xs font-mono font-bold text-gray-500 dark:text-gray-400">
+                          #{order._id?.toString().slice(-6).toUpperCase()}
+                        </p>
+                      </div>
+                      <div className="col-span-2">
+                        <p className="text-sm font-semibold text-gray-800 dark:text-white truncate">{order.studentName || 'Student'}</p>
+                        <p className="text-[10px] text-gray-400 truncate">{order.studentEmail || ''}</p>
+                      </div>
+                      <div className="col-span-3">
+                        <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">
+                          {order.items?.map(i => `${i.name} x${i.quantity}`).join(', ') || '-'}
+                        </p>
+                      </div>
+                      <div className="col-span-1">
+                        <p className="text-sm font-black text-green-600 dark:text-green-400">Rs.{order.totalAmount}</p>
+                      </div>
+                      <div className="col-span-2">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                        <p className="text-[10px] text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>
+                      </div>
+                      <div className="col-span-2">
+                        <StatusBadge status={order.status} />
+                      </div>
+                      <div className="col-span-1">
+                        <button onClick={() => setSelected(order)}
+                          className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center hover:bg-blue-100 transition-colors">
+                          <Eye className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}

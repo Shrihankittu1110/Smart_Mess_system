@@ -59,7 +59,7 @@ const canteen = user?.canteenName || user?.name || 'My Canteen';
     <div className="flex flex-col h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
 
       {/* Header */}
-      <div className="flex-shrink-0 px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+      <div className="flex-shrink-0 px-4 sm:px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-lg font-bold text-gray-900 dark:text-white">
             {greeting}, {canteen} 👋
@@ -69,16 +69,16 @@ const canteen = user?.canteenName || user?.name || 'My Canteen';
           </p>
         </div>
         <button onClick={fetchDashboard}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors w-full sm:w-auto">
           <RefreshCw className="w-4 h-4" /> Refresh
         </button>
       </div>
 
       {/* Body */}
-      <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 space-y-5" style={{ scrollbarWidth: 'none' }}>
 
         {/* ── 4 Summary Cards ── */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             {
               label: "Today's Orders",
@@ -128,10 +128,10 @@ const canteen = user?.canteenName || user?.name || 'My Canteen';
         </div>
 
         {/* ── Middle row ── */}
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
           {/* Order Status Overview */}
-          <div className="col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5">
+          <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-bold text-gray-800 dark:text-white">Order Status Overview</h2>
               <button onClick={() => navigate('/canteen/orders')}
@@ -215,7 +215,7 @@ const canteen = user?.canteenName || user?.name || 'My Canteen';
             <Zap className="w-4 h-4 text-yellow-500" />
             <h2 className="font-bold text-gray-800 dark:text-white">Quick Actions</h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
             {[
               { label: 'Add Meal',      icon: Plus,          color: 'bg-green-500',  href: '/canteen/meals'    },
               { label: 'View Orders',   icon: ShoppingBag,   color: 'bg-blue-500',   href: '/canteen/orders'   },
